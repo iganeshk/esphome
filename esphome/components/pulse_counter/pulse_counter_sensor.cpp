@@ -151,7 +151,7 @@ void PulseCounterSensor::setup() {
   }
 }
 
-int PulseCounterSensor::total() {
+int PulseCounterSensor::get_total_pulses() {
   if (this->total_sensor_ != nullptr) {
     return current_total_;
   } else {
