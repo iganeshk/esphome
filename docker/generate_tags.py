@@ -21,6 +21,12 @@ parser.add_argument(
     required=True,
     help="The suffix of the tag.",
 )
+parser.add_argument(
+    "--ghcr-repo",
+    type=str,
+    required=True,
+    help="Ghcr repo path",
+)
 
 
 def main():
@@ -52,15 +58,16 @@ def main():
             tags_to_push.append(major_minor_version)
 
     suffix = f"-{args.suffix}" if args.suffix else ""
+    ghcr_repo = f"{args.ghcr_repo}" if args.ghcr_repo else "esphome/esphome"
+
 
     with open(os.environ["GITHUB_OUTPUT"], "w") as f:
         print(f"channel={channel}", file=f)
-        print(f"image=esphome/esphome{suffix}", file=f)
+        print(f"image={ghcr_repo}{suffix}", file=f)
         full_tags = []
 
         for tag in tags_to_push:
-            full_tags += [f"ghcr.io/esphome/esphome{suffix}:{tag}"]
-            full_tags += [f"esphome/esphome{suffix}:{tag}"]
+            full_tags += [f"ghcr.io/{ghcr_repo}{suffix}:{tag}"]
         print(f"tags={','.join(full_tags)}", file=f)
 
 

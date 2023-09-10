@@ -3,8 +3,8 @@ name: Synchronise Device Classes from Home Assistant
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '45 6 * * *'
+  # schedule:
+  #   - cron: '45 6 * * *'
 
 
 jobs:

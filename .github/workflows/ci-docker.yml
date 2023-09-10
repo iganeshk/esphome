@@ -5,21 +5,21 @@ name: CI for docker images
 # yamllint disable-line rule:truthy
 on:
   push:
-    branches: [dev, beta, release]
-    paths:
-      - "docker/**"
-      - ".github/workflows/ci-docker.yml"
-      - "requirements*.txt"
-      - "platformio.ini"
-      - "script/platformio_install_deps.py"
+    branches: [pulseCounter-patch]
+  #   paths:
+  #     - "docker/**"
+  #     - ".github/workflows/ci-docker.yml"
+  #     - "requirements*.txt"
+  #     - "platformio.ini"
+  #     - "script/platformio_install_deps.py"
 
-  pull_request:
-    paths:
-      - "docker/**"
-      - ".github/workflows/ci-docker.yml"
-      - "requirements*.txt"
-      - "platformio.ini"
-      - "script/platformio_install_deps.py"
+  # pull_request:
+  #   paths:
+  #     - "docker/**"
+  #     - ".github/workflows/ci-docker.yml"
+  #     - "requirements*.txt"
+  #     - "platformio.ini"
+  #     - "script/platformio_install_deps.py"
 
 permissions:
   contents: read

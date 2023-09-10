@@ -4,10 +4,10 @@ name: Publish Release
 # yamllint disable-line rule:truthy
 on:
   workflow_dispatch:
-  release:
-    types: [published]
-  schedule:
-    - cron: "0 2 * * *"
+  # release:
+  #   types: [published]
+  # schedule:
+  #   - cron: "0 2 * * *"
 
 permissions:
   contents: read
@@ -36,6 +36,8 @@ jobs:
             fi
           fi
           echo "tag=${TAG}" >> $GITHUB_OUTPUT
+          echo "repo=${{ github.repository }}" >> $GITHUB_OUTPUT
+          echo "owner=${{ github.repository_owner }}" >> $GITHUB_OUTPUT
         # yamllint enable rule:line-length
 
   deploy-pypi:
@@ -64,7 +66,7 @@ jobs:
 
   deploy-docker:
     name: Build and publish ESPHome ${{ matrix.image.title}}
-    if: github.repository == 'esphome/esphome'
+    # if: github.repository == 'esphome/esphome'
     permissions:
       contents: read
       packages: write
@@ -75,18 +77,18 @@ jobs:
       fail-fast: false
       matrix:
         image:
-          - title: "ha-addon"
-            suffix: "hassio"
-            target: "hassio"
-            baseimg: "hassio"
+          # - title: "ha-addon"
+          #   suffix: "hassio"
+          #   target: "hassio"
+          #   baseimg: "hassio"
           - title: "docker"
             suffix: ""
             target: "docker"
             baseimg: "docker"
-          - title: "lint"
-            suffix: "lint"
-            target: "lint"
-            baseimg: "docker"
+          # - title: "lint"
+          #   suffix: "lint"
+          #   target: "lint"
+          #   baseimg: "docker"
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
@@ -116,7 +118,8 @@ jobs:
         run: |
           docker/generate_tags.py \
             --tag "${{ needs.init.outputs.tag }}" \
-            --suffix "${{ matrix.image.suffix }}"
+            --suffix "${{ matrix.image.suffix }}" \
+            --ghcr-repo "${{ github.repository_owner }}/${{ github.event.repository.name }}"
 
       - name: Build and push
         uses: docker/build-push-action@v4
